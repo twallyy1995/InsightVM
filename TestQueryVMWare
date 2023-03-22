@@ -1,0 +1,8 @@
+SELECT DISTINCT vuln.solution, assets.host_name AS asset_name, assets.ipv4 AS ip_address
+FROM dim_vulnerability vuln
+JOIN dim_vulnerability_solution vs ON vuln.id = vs.vulnerability_id
+JOIN fact_asset_vulnerability_finding favf ON vs.id = favf.vulnerability_solution_id
+JOIN dim_asset assets ON favf.asset_id = assets.id
+WHERE vuln.vendor = 'VMware'
+AND assets.asset_type = 'Virtual Machine'
+ORDER BY asset_name ASC;
